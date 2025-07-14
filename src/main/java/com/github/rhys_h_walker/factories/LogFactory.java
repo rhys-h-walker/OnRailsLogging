@@ -24,6 +24,14 @@ public class LogFactory {
     private PrintWriter pw;
     private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
 
+    /**
+     * Create a LogFactory for a specific application
+     * All logs will be located under this name like this:
+     * 
+     * user.home/OnRailsLogging/applicationName/ regular dated directory structure
+     * 
+     * @param applicationName The name to be used
+     */
     public LogFactory(String applicationName) {
         // Now upon creation of this object check and create directories that are required
         String userHome = System.getProperty("user.home");
@@ -32,6 +40,7 @@ public class LogFactory {
             applicationDirectory.mkdirs();
         }
 
+        // Assign our current printwriter
         LocalDateTime now = LocalDateTime.now();
         timestamp = now.format(df);
         try {
@@ -40,25 +49,38 @@ public class LogFactory {
             System.err.println(e);
         }
 
+        // Close the PrintWriter when execution terminates
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (pw != null) pw.close();
+        }));
+
     }
 
+    /**
+     * Create a new log given a log type and message
+     * @param message The message to acompany the log
+     * @param logType The type to be logged
+     */
     public void createNewLog(String message, LoggingType logType) {
         // Get the timestamp and locate the file that is relevent
         LocalDateTime now = LocalDateTime.now();
         String curTimestamp = now.format(df);
+
+        // Get the current log file
+        File logFile = FileManagement.locateFile(now, applicationDirectory);
 
         // printWriter will need updating if this is different
         if (!timestamp.equals(curTimestamp)) {
             timestamp = curTimestamp;
             try {
                 pw.close();
-                pw = new PrintWriter(new BufferedWriter(new FileWriter(FileManagement.locateFile(now, applicationDirectory))), true);
+                pw = new PrintWriter(new BufferedWriter(new FileWriter(logFile)), true);
             } catch (IOException e) {
                 System.err.println(e);
             }
         }
 
-        File logFile = FileManagement.locateFile(now, applicationDirectory);
+        // Write to the log file
         FileManagement.writeToLogFile(logFile, timestamp, logType, message, pw);
     }
 }
