@@ -1,26 +1,13 @@
 package com.github.rhys_h_walker;
 
-/**
- * Class that provides the primary functionality of the logging, colours are applied at output
- * All prints are in stdout (One error per line)
- * 
- * Colours:
- *      - miscellaneous: CYAN
- *      - info: BLUE
- *      - debug: YELLOW
- *      - progress: GREEN
- *      - error: RED
- * 
- * @author Rhys Walker
- * @since 13/07/2025
- */
-
-import com.github.rhys_h_walker.LoggingLevel;
-import com.github.rhys_h_walker.ANSI;
+import com.github.rhys_h_walker.core_enums.LoggingLevel;
+import com.github.rhys_h_walker.factories.LogFactory;
+import com.github.rhys_h_walker.misc.ANSI;
 
 public class Logger {
     
     public static LoggingLevel loggingLevel = LoggingLevel.NONE;
+    public static LogFactory logFactory;
 
     public static void logmiscellaneous(String message) {
         if (loggingLevel == LoggingLevel.ALL) {

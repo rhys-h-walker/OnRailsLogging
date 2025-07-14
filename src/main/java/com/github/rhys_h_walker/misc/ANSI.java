@@ -1,4 +1,4 @@
-package com.github.rhys_h_walker;
+package com.github.rhys_h_walker.misc;
 
 /**
  * Class that contains static references to the ANSI colour codes for text formatting.
