@@ -19,7 +19,7 @@ public class FileManagement {
      */
     public static File locateFile(LocalDateTime ts, File applicationDirectory) {
         // We have our timestamp in this format yyyy-MM-dd-HH:mm:ss
-        File loggingFile = new File(applicationDirectory.getAbsolutePath()+"\\"+ts.getYear()+"\\"+ts.getMonth()+"\\"+ts.getDayOfMonth()+"\\"+ts.getHour()+"_"+ts.getMinute()+"_"+ts.getSecond()+".log");
+        File loggingFile = new File(applicationDirectory.getAbsolutePath()+"\\"+ts.getYear()+"\\"+ts.getMonthValue()+"\\"+ts.getDayOfMonth()+"\\"+ts.getHour()+"_"+ts.getMinute()+"_"+ts.getSecond()+".log");
 
         if (loggingFile.exists()){
             return loggingFile;
