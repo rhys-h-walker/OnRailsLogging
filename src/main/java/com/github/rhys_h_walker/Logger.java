@@ -33,6 +33,14 @@ public class Logger {
     }
 
     /**
+     * Change the logging level dynamically
+     * @param level The level at which the application is to log from
+     */
+    public static void changeLoggingLevel(LoggingLevel level) {
+        loggingLevel = level;
+    }
+
+    /**
      * Initialize the logging logic with the default value of =
      *      LoggingLevel.ERRORS
      * @param applicationName The name of the application we are logging for
