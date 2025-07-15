@@ -150,10 +150,14 @@ public class Logger {
      */
     private static String produceLog(String message, String printableMessage, LoggingType type) {
         String timestamp = null;
+
+        // So long as we are set then output
         if (logFactory != null) {
+            // Output to file regardless of logging level
+            timestamp = logFactory.createNewLog(message, type);
+
             // Message will be empty if the logging level does not allow its output
-            if (!message.equals("")){
-                timestamp = logFactory.createNewLog(message, type);
+            if (!printableMessage.equals("")){
                 System.out.println("[" + timestamp + "] " + printableMessage);
             }
         } else {
