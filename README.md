@@ -31,6 +31,7 @@ Logger.initializeLogger("applicationName", LoggingLevel.ALL);
 Logger.logerror("This is an Error message");
 Logger.logprogress("This is a progress message");
 Logger.loginfo("This is an info message");
+Logger.logwarn("This is a warning message");
 Logger.logdebug("This is a debug message");
 Logger.logmiscellaneous("This is a miscellaneous message");
 ```
@@ -40,6 +41,7 @@ The output file will look like this:
 [2025-07-14-23:15:16] ERROR: This is an an Error message
 [2025-07-14-23:15:16] PROGRESS: This is a progress message
 [2025-07-14-23:15:16] INFO: This is an info message
+[2025-07-14-23:15:16] WARN: This is an warning message
 [2025-07-14-23:15:16] DEBUG: This is a debug message
 [2025-07-14-23:15:16] MISCELLANEOUS: This is a miscellaneous message
 ```
