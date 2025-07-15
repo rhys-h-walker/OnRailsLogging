@@ -53,84 +53,107 @@ public class Logger {
     /**
      * Log a miscellaneous message
      * @param message
+     * @return the timestamp of the log
      */
-    public static void logmiscellaneous(String message) {
+    public static String logmiscellaneous(String message) {
+        String logMessage = "";
         if (loggingLevel == LoggingLevel.ALL) {
-            System.out.println(ANSI.CYAN_BG + "Misc:" + ANSI.RESET + " " + ANSI.CYAN + message + ANSI.RESET);
+            logMessage = (ANSI.CYAN_BG + "Misc:" + ANSI.RESET + " " + ANSI.CYAN + message + ANSI.RESET);
         }
 
-        if (logFactory != null) {
-            logFactory.createNewLog(message, LoggingType.MISCELLANEOUS);
-        }
+        return produceLog(message, logMessage, LoggingType.MISCELLANEOUS);
     }
 
     /**
      * Log a info message
      * @param message
+     * @return the timestamp of the log
      */
-    public static void loginfo(String message) {
+    public static String loginfo(String message) {
+        String logMessage = "";
         if (loggingLevel == LoggingLevel.ALL || loggingLevel == LoggingLevel.INFO) {
-            System.out.println(ANSI.BLUE_BG + "Info:" + ANSI.RESET + " " + ANSI.BLUE + message + ANSI.RESET);
+            logMessage = (ANSI.BLUE_BG + "Info:" + ANSI.RESET + " " + ANSI.BLUE + message + ANSI.RESET);
         }
 
-        if (logFactory != null) {
-            logFactory.createNewLog(message, LoggingType.INFO);
-        }
+        return produceLog(message, logMessage, LoggingType.INFO);
     }
 
     /**
      * Log a warning message
      * @param message
+     * @return the timestamp of the log
      */
-    public static void logwarn(String message) {
+    public static String logwarn(String message) {
+        String logMessage = "";
         if (loggingLevel == LoggingLevel.ALL || loggingLevel == LoggingLevel.INFO) {
-            System.out.println(ANSI.MAGENTA_BG + "Warn:" + ANSI.RESET + " " + ANSI.MAGENTA + message + ANSI.RESET);
+            logMessage = (ANSI.MAGENTA_BG + "Warn:" + ANSI.RESET + " " + ANSI.MAGENTA + message + ANSI.RESET);
         }
 
-        if (logFactory != null) {
-            logFactory.createNewLog(message, LoggingType.WARN);
-        }
+        return produceLog(message, logMessage, LoggingType.WARN);
     }
 
     /**
      * Log a debug message
      * @param message
+     * @return the timestamp of the log
      */
-    public static void logdebug(String message) {
+    public static String logdebug(String message) {
+        String logMessage = "";
         if (loggingLevel == LoggingLevel.ALL || loggingLevel == LoggingLevel.INFO || loggingLevel == LoggingLevel.DEBUG) {
-            System.out.println(ANSI.YELLOW_BG + "Debug:" + ANSI.RESET + " " + ANSI.YELLOW + message + ANSI.RESET);
+            logMessage = (ANSI.YELLOW_BG + "Debug:" + ANSI.RESET + " " + ANSI.YELLOW + message + ANSI.RESET);
         }
 
-        if (logFactory != null) {
-            logFactory.createNewLog(message, LoggingType.DEBUG);
-        }
+        return produceLog(message, logMessage, LoggingType.DEBUG);
     }
 
     /**
      * Log a progress message
      * @param message
+     * @return the timestamp of the log
      */
-    public static void logprogress(String message) {
+    public static String logprogress(String message) {
+        String logMessage = "";
         if (loggingLevel == LoggingLevel.ALL || loggingLevel == LoggingLevel.INFO || loggingLevel == LoggingLevel.DEBUG || loggingLevel == LoggingLevel.PROGRESS) {
-            System.out.println(ANSI.GREEN_BG + "Progress:" + ANSI.RESET + " " + ANSI.GREEN + message + ANSI.RESET);
+            logMessage = (ANSI.GREEN_BG + "Progress:" + ANSI.RESET + " " + ANSI.GREEN + message + ANSI.RESET);
         }
 
-        if (logFactory != null) {
-            logFactory.createNewLog(message, LoggingType.PROGRESS);
-        }
+        return produceLog(message, logMessage, LoggingType.PROGRESS);
     }
 
     /**
      * Log an error message
      * @param message
+     * @return the timestamp of the log
      */
-    public static void logerror(String message) {
+    public static String logerror(String message) {
+        String logMessage = "";
+
         if (loggingLevel != LoggingLevel.NONE) {
-            System.err.println(ANSI.RED_BG + "Error:" + ANSI.RESET + " " + ANSI.RED + message + ANSI.RESET);
+            logMessage = (ANSI.RED_BG + "Error:" + ANSI.RESET + " " + ANSI.RED + message + ANSI.RESET);
         }
 
+        return produceLog(message, logMessage, LoggingType.ERROR);
+    }
+
+    /**
+     * Output a log message and create the log in memory
+     * @param message The message formatted with colours to be output
+     * @param printableMessage The message formatted with ANSI codes
+     * @param level The logging level for creation of the log in memory
+     * @return the timestamp of the log, null if log factory not set, or LoggingLevel does not allow its outpu
+     */
+    private static String produceLog(String message, String printableMessage, LoggingType type) {
+        String timestamp = null;
         if (logFactory != null) {
-            logFactory.createNewLog(message, LoggingType.ERROR);
+            // Message will be empty if the logging level does not allow its output
+            if (!message.equals("")){
+                timestamp = logFactory.createNewLog(message, type);
+                System.out.println("[" + timestamp + "] " + printableMessage);
+            }
+        } else {
+            System.err.println("Log factory not set, most likely no initialize call was made\n" + message);
         }
+
+        return timestamp;
     }
 }

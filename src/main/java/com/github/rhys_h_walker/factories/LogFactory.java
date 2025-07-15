@@ -60,8 +60,9 @@ public class LogFactory {
      * Create a new log given a log type and message
      * @param message The message to acompany the log
      * @param logType The type to be logged
+     * @return A string representing the timestamp for the log
      */
-    public void createNewLog(String message, LoggingType logType) {
+    public String createNewLog(String message, LoggingType logType) {
         // Get the timestamp and locate the file that is relevent
         LocalDateTime now = LocalDateTime.now();
         String curTimestamp = now.format(df);
@@ -82,5 +83,7 @@ public class LogFactory {
 
         // Write to the log file
         FileManagement.writeToLogFile(logFile, timestamp, logType, message, pw);
+
+        return timestamp;
     }
 }
