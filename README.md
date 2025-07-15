@@ -10,6 +10,28 @@ Logs can be found in your user.home directory under OnRailsLogging and then your
 
 The logger is still in development. Simple things you may expect to exist may not at this point. They will come soon, checkout the roadmap at the bottom which details the next features to come.
 
+## Adding the logger to a maven project
+The logger uses JitPack to package and install the project. Paste the code found below into your pom.xml.
+
+```xml
+<dependencies>
+	<dependency>
+	    <groupId>com.github.rhys-h-walker</groupId>
+	    <artifactId>OnRailsLogging</artifactId>
+	    <version>Tag</version>
+	</dependency>
+<dependencies>
+
+<repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+
+For additional instructions on how to install check out the jitpack page for the repo - [here](https://jitpack.io/#rhys-h-walker/OnRailsLogging).
+
 ## How to use
 
 To use the logger you must first decide how you wish it to work. Currently there are three options:
@@ -55,6 +77,12 @@ When printing to console the outputs have colours like so: <br>
     - Adjust logging level dynamically
     - Allow for logging to be more fine grained with level
     - Allow for colour formatting
-- Make it a dependency in Maven
+	- Allow clearing of the console
 - Make a Log viewer.
 - Add tests in Junit
+
+## Examples
+
+OnRailsLogger is new and there are few examples, however I have converted one of my old projects over to use it, you can find it [here](https://github.com/rhys-h-walker/rambling-jesters/tree/adding-on-rails-logging).
+
+Please if you use this project contact me so I can place your project on examples.
