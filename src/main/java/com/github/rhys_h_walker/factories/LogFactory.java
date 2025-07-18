@@ -35,7 +35,7 @@ public class LogFactory {
     public LogFactory(String applicationName) {
         // Now upon creation of this object check and create directories that are required
         String userHome = System.getProperty("user.home");
-        applicationDirectory = new File(userHome+"\\OnRailsLogging\\"+applicationName);
+        applicationDirectory = new File(userHome, "OnRailsLogging" + File.separator + applicationName);
         if (!applicationDirectory.exists()) {
             applicationDirectory.mkdirs();
         }

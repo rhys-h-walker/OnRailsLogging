@@ -33,7 +33,7 @@ public class TimestampDecoder {
         String minute = Utilities.removeLeadingZeros(time[1]);
         String second = Utilities.removeLeadingZeros(time[2]);
 
-        File path = new File(System.getProperty("user.home")+"/OnRailsLogging/"+Logger.getApplicationName()+"/"+year+"/"+month+"/"+day+"/"+hour+"_"+minute+"_"+second+".log");
+        File path = new File(System.getProperty("user.home")+File.separator+"OnRailsLogging"+File.separator+Logger.getApplicationName()+File.separator+year+File.separator+month+File.separator+day+File.separator+hour+"_"+minute+"_"+second+".log");
 
         return path;
     }

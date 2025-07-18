@@ -3,6 +3,7 @@ package com.github.rhys_h_walker;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.io.File;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -28,13 +29,13 @@ public class TestTimestampDecoder {
 
     private static Stream<Arguments> testTimestampDecodedProvider() {
 
-        String knownExtension = System.getProperty("user.home")+"\\OnRailsLogging\\TestFileOutput\\";
+        String knownExtension = System.getProperty("user.home")+File.separator+"OnRailsLogging"+File.separator+"TestFileOutput"+File.separator;
 
         return Stream.of (
-            arguments("2025-07-18-14:52:26", knownExtension+"2025\\7\\18\\14_52_26.log"),
-            arguments("2045-12-31-19:59:43", knownExtension+"2045\\12\\31\\19_59_43.log"),
-            arguments("1-1-1-1:1:1", knownExtension+"1\\1\\1\\1_1_1.log"),
-            arguments("3999-12-30-23:59:59", knownExtension+"3999\\12\\30\\23_59_59.log")
+            arguments("2025-07-18-14:52:26", knownExtension+"2025"+File.separator+"7"+File.separator+"18"+File.separator+"14_52_26.log"),
+            arguments("2045-12-31-19:59:43", knownExtension+"2045"+File.separator+"12"+File.separator+"31"+File.separator+"19_59_43.log"),
+            arguments("1-1-1-1:1:1", knownExtension+"1"+File.separator+"1"+File.separator+"1"+File.separator+"1_1_1.log"),
+            arguments("3999-12-30-23:59:59", knownExtension+"3999"+File.separator+"12"+File.separator+"30"+File.separator+"23_59_59.log")
         );
     }
 
