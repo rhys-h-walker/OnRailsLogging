@@ -52,6 +52,10 @@ public class Logger {
         loggingLevel = level;
     }
 
+    /**
+     * Get the name of the currently running application
+     * @return String -> Currently running application
+     */
     public static String getApplicationName() {
         return applicationName;
     }

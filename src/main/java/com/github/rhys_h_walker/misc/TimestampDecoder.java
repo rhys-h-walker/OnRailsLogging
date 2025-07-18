@@ -1,7 +1,6 @@
 package com.github.rhys_h_walker.misc;
 
 import java.io.File;
-import java.util.List;
 
 import com.github.rhys_h_walker.Logger;
 
@@ -16,6 +15,7 @@ public class TimestampDecoder {
      * This method assumes the timestamp given complies with the format
      *              "year-month-day-hour:minute:second"
      * No checking is done as to whether this is true
+     * No checking is done whether it even exists
      * @param timestamp The timestamp to convert
      * @return A file object pointing to the log that is being located
      */
@@ -34,9 +34,6 @@ public class TimestampDecoder {
         String second = Utilities.removeLeadingZeros(time[2]);
 
         File path = new File(System.getProperty("user.home")+"/OnRailsLogging/"+Logger.getApplicationName()+"/"+year+"/"+month+"/"+day+"/"+hour+"_"+minute+"_"+second+".log");
-        if (path.exists()) {
-            System.out.println("IT IS THERE!!!!!");
-        }
 
         return path;
     }
