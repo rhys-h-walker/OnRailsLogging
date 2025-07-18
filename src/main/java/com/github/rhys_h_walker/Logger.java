@@ -15,8 +15,8 @@ import com.github.rhys_h_walker.misc.ANSI;
 public class Logger {
     
     private static LoggingLevel loggingLevel = LoggingLevel.NONE;
-    public static LogFactory logFactory;
-
+    private static LogFactory logFactory;
+    private static String applicationName;
 
     //
     // Overrriden initializeLogger which allows for different initialization configurations
@@ -27,9 +27,21 @@ public class Logger {
      * @param applicationName The name of the application we are logging for
      * @param level The level at which the logger is being set
      */
-    public static void initializeLogger(String applicationName, LoggingLevel level) {
-        logFactory = new LogFactory(applicationName);
+    public static void initializeLogger(String appName, LoggingLevel level) {
+        logFactory = new LogFactory(appName);
         loggingLevel = level;
+        applicationName = appName;
+    }
+
+    /**
+     * Initialize the logging logic with the default value of =
+     *      LoggingLevel.ERRORS
+     * @param applicationName The name of the application we are logging for
+     */
+    public static void initializeLogger(String appName) {
+        logFactory = new LogFactory(appName);
+        loggingLevel = LoggingLevel.ERRORS;
+        applicationName = appName;
     }
 
     /**
@@ -41,13 +53,11 @@ public class Logger {
     }
 
     /**
-     * Initialize the logging logic with the default value of =
-     *      LoggingLevel.ERRORS
-     * @param applicationName The name of the application we are logging for
+     * Get the name of the currently running application
+     * @return String -> Currently running application
      */
-    public static void initializeLogger(String applicationName) {
-        logFactory = new LogFactory(applicationName);
-        loggingLevel = LoggingLevel.ERRORS;
+    public static String getApplicationName() {
+        return applicationName;
     }
 
     /**
@@ -144,10 +154,14 @@ public class Logger {
      */
     private static String produceLog(String message, String printableMessage, LoggingType type) {
         String timestamp = null;
+
+        // So long as we are set then output
         if (logFactory != null) {
+            // Output to file regardless of logging level
+            timestamp = logFactory.createNewLog(message, type);
+
             // Message will be empty if the logging level does not allow its output
-            if (!message.equals("")){
-                timestamp = logFactory.createNewLog(message, type);
+            if (!printableMessage.equals("")){
                 System.out.println("[" + timestamp + "] " + printableMessage);
             }
         } else {
