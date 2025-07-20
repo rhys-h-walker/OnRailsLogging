@@ -25,8 +25,26 @@ public class TestFileOutput {
 
     @BeforeAll
     public static void startup() {
+        // Create a test-specific directory in temp space
+        String tempDir = System.getProperty("java.io.tmpdir");
+        File testDir = new File(tempDir, "OnRailsLogging-test");
+        
+        if (!testDir.exists()) {
+            boolean created = testDir.mkdirs();
+            if (!created) {
+                throw new RuntimeException("Failed to create test directory: " + testDir.getAbsolutePath());
+            }
+        }
+        
+        // Override user.home to point to our test directory
+        System.setProperty("user.home", testDir.getParent());
+        
+        // Print debug info for CI
+        System.out.println("Test directory: " + testDir.getAbsolutePath());
+        System.out.println("User home: " + System.getProperty("user.home"));
+        System.out.println("Can write: " + testDir.canWrite());
+        
         // Startup a new application for this file and set logging to NONE
-        // No output to console in this test is required
         Logger.initializeLogger("TestFileOutput", LoggingLevel.NONE);
     }
 
