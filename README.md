@@ -76,17 +76,15 @@ When printing to console the outputs have colours like so: <br>
 Updates are located in three groups, Next is what I am currently working on, soon will be after that and future has no specific date or timeframe attached to it.
 
 ### Next
-- Add more customisation:
-	- Allow clearing of the console
-
-### Soon
 - Allow for logging to be more fine grained with level
 	- This will allow for the silencing of certain logging messages,
 		- Misc could be on but ERROR off
 
+### Soon
+- Add Junit tests for console output
+
 ### Future
 - Create a wiki
-- Add Junit tests for console output
 - Make a Log viewer.
 	1. A standalone application that can view all logs for a certain application
 	2. A FXML component which can be added to a project to view logs:
