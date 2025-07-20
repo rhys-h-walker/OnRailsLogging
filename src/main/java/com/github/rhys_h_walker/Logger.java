@@ -52,6 +52,17 @@ public class Logger {
      * @param active a boolean describing the whether the log is active
      */
     public static void changeLogVisibility(LoggingType type, boolean active) {
+
+        if (type == null) {
+            System.err.println("Type cannot be null");
+            return;
+        }
+
+        if (logVisibility == null) {
+            System.err.println("Visibility cannot be null");
+            return;
+        }
+
         logVisibility.put(type, active);
     }
 
@@ -61,6 +72,7 @@ public class Logger {
      * @return Boolean representing visibility
      */
     public static boolean viewLogVisibility(LoggingType type) {
+
         return logVisibility.get(type);
     }
 
@@ -193,6 +205,13 @@ public class Logger {
         } else if (!logFactoryNullErrorReported){
             logFactoryNullErrorReported = true;
             System.err.println("Log factory not set, most likely no initialize call was made\nPlease call initialize before any other logging actions");
+        } else { // Fallback option if no fileoutput is allowed
+
+            // Message will be empty if the logging level does not allow its output
+            if (!printableMessage.equals("")){
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
+                System.out.println("[" + timestamp + "] " + printableMessage);
+            }
         }
 
         return timestamp;
@@ -204,10 +223,35 @@ public class Logger {
      * @param customisedVisibility The visibility of each log
      */
     private static void commonConstructor(String appName, HashMap<LoggingType, Boolean> customisedVisibility) {
+        // Reset error flags
+        logFactoryNullErrorReported = false;
 
-        logFactory = new LogFactory(appName);
+        // Check the appName for issues (No app needed for console only output)
+        if (appName == null || appName.trim().isEmpty()) {
+            System.err.println("Initialization failed due to appName being null or empty. Logger will only output to console");
+            return;
+        }
         applicationName = appName;
-        logVisibility = customisedVisibility;
+
+        // Check that logging visibility is not null
+        if (customisedVisibility == null) {
+            System.err.println("customisedVisibility is null, this could be internal or based on value given \ndefaulting to default values");
+            logVisibility = LoggingType.defaultVisibility();
+        } else {
+            logVisibility = customisedVisibility;
+        }
         
+        // Attempt to make a logFactory, if this fails then output and fallback to console only
+        try {
+            logFactory = new LogFactory(appName);
+        } catch (SecurityException e) {
+            System.err.println("Security restriction during initialization: " + e.getMessage());
+            System.err.println("Falling back to console-only logging.");
+            logFactory = null;
+        } catch (Exception e) {
+            System.err.println("Unexpected error during initialization: " + e.getMessage());
+            System.err.println("Falling back to console-only logging.");
+            logFactory = null;
+        }
     }
 }
