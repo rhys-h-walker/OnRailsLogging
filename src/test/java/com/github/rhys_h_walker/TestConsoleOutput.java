@@ -2,7 +2,6 @@ package com.github.rhys_h_walker;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
-import com.github.rhys_h_walker.ConsoleCapture;
 import com.github.rhys_h_walker.misc.ANSI;
+import com.github.rhys_h_walker.testing_utilities.ConsoleCapture;
 
 import java.util.function.Function;
 import java.util.stream.Stream;

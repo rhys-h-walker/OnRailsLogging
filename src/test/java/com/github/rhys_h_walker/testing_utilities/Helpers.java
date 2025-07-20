@@ -1,4 +1,4 @@
-package com.github.rhys_h_walker;
+package com.github.rhys_h_walker.testing_utilities;
 
 import java.util.ArrayList;
 

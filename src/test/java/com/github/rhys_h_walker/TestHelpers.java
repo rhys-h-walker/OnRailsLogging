@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
+import com.github.rhys_h_walker.testing_utilities.Helpers;
 
 /**
  * A class designed to help the Helpers class

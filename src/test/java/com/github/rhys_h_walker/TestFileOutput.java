@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
 import com.github.rhys_h_walker.misc.TimestampDecoder;
+import com.github.rhys_h_walker.testing_utilities.Helpers;
 
 /**
  * A test class testing the output of logs to a file
