@@ -95,6 +95,10 @@ public class Logger {
             return null;
         }
 
+        if (message == null) {
+            message = "null";
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.MISCELLANEOUS)) {
             logMessage = (ANSI.CYAN_BG + "MISCELLANEOUS:" + ANSI.RESET + " " + ANSI.CYAN + message + ANSI.RESET);
@@ -112,6 +116,10 @@ public class Logger {
 
         if (logVisibility == null) {
             return null;
+        }
+
+        if (message == null) {
+            message = "null";
         }
 
         String logMessage = "";
@@ -133,6 +141,10 @@ public class Logger {
             return null;
         }
 
+        if (message == null) {
+            message = "null";
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.WARN)) {
             logMessage = (ANSI.MAGENTA_BG + "WARN:" + ANSI.RESET + " " + ANSI.MAGENTA + message + ANSI.RESET);
@@ -150,6 +162,10 @@ public class Logger {
 
         if (logVisibility == null) {
             return null;
+        }
+
+        if (message == null) {
+            message = "null";
         }
 
         String logMessage = "";
@@ -171,6 +187,10 @@ public class Logger {
             return null;
         }
 
+        if (message == null) {
+            message = "null";
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.PROGRESS)) {
             logMessage = (ANSI.GREEN_BG + "PROGRESS:" + ANSI.RESET + " " + ANSI.GREEN + message + ANSI.RESET);
@@ -189,7 +209,11 @@ public class Logger {
         if (logVisibility == null) {
             return null;
         }
-        
+
+        if (message == null) {
+            message = "null";
+        }
+
         String logMessage = "";
 
         if (logVisibility.get(LoggingType.ERROR)) {
