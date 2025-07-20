@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.github.rhys_h_walker.core_enums.LoggingLevel;
+import com.github.rhys_h_walker.core_enums.LoggingType;
 import com.github.rhys_h_walker.misc.TimestampDecoder;
 
 /**
@@ -22,9 +22,9 @@ public class TestTimestampDecoder {
 
     @BeforeAll
     public static void startup() {
-        // Startup a new application for this file and set logging to NONE
+        // Startup a new application for this file
         // No output to console in this test is required
-        Logger.initializeLogger("TestFileOutput", LoggingLevel.NONE);
+        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse());
     }
 
     private static Stream<Arguments> testTimestampDecodedProvider() {
