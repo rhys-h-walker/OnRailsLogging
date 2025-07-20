@@ -71,17 +71,19 @@ The output file will look like this:
 When printing to console the outputs have colours like so: <br>
 ![Image showing console highlighting](assets/TerminalOutput.png)
 
+## Recent updates
+- Allow for logging to be more fine grained with level
+	- This will allow for the silencing of certain logging messages,
+
 ## Roadmap
 
 Updates are located in three groups, Next is what I am currently working on, soon will be after that and future has no specific date or timeframe attached to it.
 
 ### Next
-- Allow for logging to be more fine grained with level
-	- This will allow for the silencing of certain logging messages,
-		- Misc could be on but ERROR off
+- Add Junit tests for console output
 
 ### Soon
-- Add Junit tests for console output
+- Nothing to report currently
 
 ### Future
 - Create a wiki
