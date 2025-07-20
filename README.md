@@ -73,13 +73,26 @@ When printing to console the outputs have colours like so: <br>
 
 ## Roadmap
 
+Updates are located in three groups, Next is what I am currently working on, soon will be after that and future has no specific date or timeframe attached to it.
+
+### Next
 - Add more customisation:
-    - Adjust logging level dynamically
-    - Allow for logging to be more fine grained with level
     - Allow for colour formatting
 	- Allow clearing of the console
+
+### Soon
+- Allow for logging to be more fine grained with level
+	- This will allow for the silencing of certain logging messages,
+		- Misc could be on but ERROR off
+
+### Future
+- Create a wiki
+- Add Junit tests for console output
 - Make a Log viewer.
-- Add tests in Junit
+	1. A standalone application that can view all logs for a certain application
+	2. A FXML component which can be added to a project to view logs:
+		- This is an embedable component
+		- Can be added anywhere and will just view logs for the app
 
 ## Examples
 

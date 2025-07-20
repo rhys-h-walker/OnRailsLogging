@@ -25,7 +25,7 @@ public class TestFileOutput {
 
     @BeforeAll
     public static void startup() {
-        // Create a test-specific directory in temp space
+        // Create a test-specific directory in temp space (Allows functionality on CI)
         String tempDir = System.getProperty("java.io.tmpdir");
         File testDir = new File(tempDir, "OnRailsLogging-test");
         
