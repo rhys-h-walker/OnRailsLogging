@@ -19,6 +19,9 @@ public class Logger {
     private static String applicationName;
     private static HashMap<LoggingType, Boolean> logVisibility;
 
+    // Booleans to not spam with log errors
+    private static boolean logFactoryNullErrorReported = false;
+
     //
     // Overrriden initializeLogger which allows for different initialization configurations
     //
@@ -158,13 +161,18 @@ public class Logger {
 
     /**
      * Output a log message and create the log in memory
-     * @param message The message formatted with colours to be output
+     * @param message The message formatted without colours to be output
      * @param printableMessage The message formatted with ANSI codes
      * @param level The logging level for creation of the log in memory
      * @return the timestamp of the log, null if log factory not set, or LoggingLevel does not allow its outpu
      */
     private static synchronized String produceLog(String message, String printableMessage, LoggingType type) {
         String timestamp = null;
+
+        // Replace null message with "null"
+        if (message == null) {
+            message = "null";
+        }
 
         // So long as we are set then output
         if (logFactory != null) {
@@ -175,8 +183,9 @@ public class Logger {
             if (!printableMessage.equals("")){
                 System.out.println("[" + timestamp + "] " + printableMessage);
             }
-        } else {
-            System.err.println("Log factory not set, most likely no initialize call was made\n" + message);
+        } else if (!logFactoryNullErrorReported){
+            logFactoryNullErrorReported = true;
+            System.err.println("Log factory not set, most likely no initialize call was made\nPlease call initialize before any other logging actions");
         }
 
         return timestamp;
