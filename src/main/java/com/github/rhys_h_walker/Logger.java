@@ -50,6 +50,11 @@ public class Logger {
         logVisibility.put(type, active);
     }
 
+    /**
+     * Is a log type currently visible
+     * @param type Type of log to check for
+     * @return Boolean representing visibility
+     */
     public static boolean viewLogVisibility(LoggingType type) {
         return logVisibility.get(type);
     }
@@ -158,7 +163,7 @@ public class Logger {
      * @param level The logging level for creation of the log in memory
      * @return the timestamp of the log, null if log factory not set, or LoggingLevel does not allow its outpu
      */
-    private static String produceLog(String message, String printableMessage, LoggingType type) {
+    private static synchronized String produceLog(String message, String printableMessage, LoggingType type) {
         String timestamp = null;
 
         // So long as we are set then output

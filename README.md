@@ -2,7 +2,7 @@
 
 Welcome to OnRailsLogger a simple logging application which can fit right into your codebase. OnRails features total of 6 different log types, and 6 different logging levels. The application is simple requiring one initialization step at your codes entrypoint and then just report your error.
 
-**This is a simple Logger, it is not safe to be used concurrently, it will not help you figure out the last interleaving of code if you do run it as so. Concurrent access is not restricted.**
+**This is a simple logger, it has a synchronized block around the main logging method. This is the only thread safety included. No guarantees are given through locks/queues/semaphores.**
 
 Logs can be found in your user.home directory under OnRailsLogging and then your application name.
 
@@ -74,6 +74,7 @@ When printing to console the outputs have colours like so: <br>
 ## Recent updates
 - Allow for logging to be more fine grained with level
 	- This will allow for the silencing of certain logging messages,
+- Basic thread safety, synchronized block in produceLog
 
 ## Roadmap
 
@@ -81,9 +82,16 @@ Updates are located in three groups, Next is what I am currently working on, soo
 
 ### Next
 - Add Junit tests for console output
+- Error handling in file-creation/string creation
+- Handle null messages with a message when printing/writing
 
 ### Soon
-- Nothing to report currently
+- Configuration file support:
+	- Reading of a simple `.properties` file, this will allow things like, custom location routing. Default custom settings.
+- Log file limits, max size to these files. (Some change to directory structure needed)
+- Log deletion, setup a default timeframe for logs to be deleted, checked on initialization of the application. And also routinely when some other function is called:
+	- In the future will allow customisation of the features.
+- Execption logging, a nice and clean method of logging exception methods.
 
 ### Future
 - Create a wiki
@@ -92,6 +100,7 @@ Updates are located in three groups, Next is what I am currently working on, soo
 	2. A FXML component which can be added to a project to view logs:
 		- This is an embedable component
 		- Can be added anywhere and will just view logs for the app
+- Custom log formats (Allow adjustment of certain features based on user requirements)
 
 ## Examples
 
