@@ -11,7 +11,7 @@ Logs can be found in your user.home directory under OnRailsLogging and then your
 The logger is still in development. Simple things you may expect to exist may not at this point. They will come soon, checkout the roadmap at the bottom which details the next features to come.
 
 ## Adding the logger to a maven project
-The logger uses JitPack to package and install the project. Paste the code found below into your pom.xml. **Check tags for releases, not all changes in main are in the current release VERSION: `v1.0.0`**
+The logger uses JitPack to package and install the project. Paste the code found below into your pom.xml. **Check tags for releases, not all changes in main are in the current release VERSION: `v1.0.0`**. Second release coming after testing infrastructure fully implemented.
 
 ```xml
 <dependencies>
@@ -34,19 +34,16 @@ For additional instructions on how to install check out the jitpack page for the
 
 ## How to use
 
-To use the logger you must first decide how you wish it to work. Currently there are three options:
-- Console reporting
-- Logging to file
-- Both of the above
+Before using the Logger there are two things to understand. You have the power to log to a file and console or just console. When logging to just console add true to the final argument of initializeLogger. Logging visibility can be customized through a HashMap<LoggingType, boolean> this is the second argument in the second initializer. There are three available by default, check LoggingType for the methods.
 
-To just log to a console ignore the initialization step. To just output to file set LoggingLevel.NONE in initialization.
+Make sure to call initialize Logger before doing anything else, otherwise no logs will be shown.
 
 ```Java
-Logger.initializeLogger("applicationName");
+Logger.initializeLogger("applicationName", false);
 
 // Or
 
-Logger.initializeLogger("applicationName", LoggingLevel.ALL);
+Logger.initializeLogger("applicationName", LoggingType.defaultVisibility(), false);
 
 // Then
 
@@ -75,15 +72,61 @@ When printing to console the outputs have colours like so: <br>
 - Allow for logging to be more fine grained with level
 	- This will allow for the silencing of certain logging messages,
 - Basic thread safety, synchronized block in produceLog
+- Error handling for most cases
+- Testing for basic console output
+- Error handling in file-creation/string creation
+- Handle null messages with a message when printing/writing
 
 ## Roadmap
 
 Updates are located in three groups, Next is what I am currently working on, soon will be after that and future has no specific date or timeframe attached to it.
 
 ### Next
-- Add Junit tests for console output
-- Error handling in file-creation/string creation
-- Handle null messages with a message when printing/writing
+- Testing via Junit
+	- Core:
+		- File writing
+		- File location/creation
+		- Directory structure creation
+		- File content verification
+		- File rotation behaviour
+	- Configuration
+		- ChangeVisibility
+		- ViewLogVisibility
+		- GetApplicationName
+		- Default visibility settings
+		- Custom visibility maps
+	- Error handling
+		- Permission denied scenarios
+		- Null configuration handling
+		- Null configuration handling
+		- System property access failures
+		- Security exceptions
+		- LogFactory initialization failures
+		- PrintWriter creation failures
+		- File locking Scenarios
+	- Thread safety
+		- Potentially will remain untested
+	- Cross-platform testing
+		- Potentially may remain untested
+		- Path characters on (Windows/Unix/Mac)
+		- Case sensitivity (Platform dependent)
+		- Unicode characters
+		- Path length limits
+	- File system operations
+		- Shutdown hook execution
+	- LogFactory
+		- isInitialized status checking
+		- Constructor error handling
+		- PrintWriter recreation, for timestamps
+		- ErrorFlag management
+	- Input validation
+		- Empty application names
+		- Null logging type handling
+	- Integration Testing
+		- End-to-end workflow, init->log->verify
+		- File+console dual output verification
+		- Console only mode
+		- Fallback behaviour chains
 
 ### Soon
 - Configuration file support:
@@ -92,6 +135,7 @@ Updates are located in three groups, Next is what I am currently working on, soo
 - Log deletion, setup a default timeframe for logs to be deleted, checked on initialization of the application. And also routinely when some other function is called:
 	- In the future will allow customisation of the features.
 - Execption logging, a nice and clean method of logging exception methods.
+- Application name validator
 
 ### Future
 - Create a wiki
@@ -101,6 +145,7 @@ Updates are located in three groups, Next is what I am currently working on, soo
 		- This is an embedable component
 		- Can be added anywhere and will just view logs for the app
 - Custom log formats (Allow adjustment of certain features based on user requirements)
+- Reinitialization of the Logger, recovery from a crash if told to be user
 
 ## Examples
 
