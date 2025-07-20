@@ -11,7 +11,7 @@ Logs can be found in your user.home directory under OnRailsLogging and then your
 The logger is still in development. Simple things you may expect to exist may not at this point. They will come soon, checkout the roadmap at the bottom which details the next features to come.
 
 ## Adding the logger to a maven project
-The logger uses JitPack to package and install the project. Paste the code found below into your pom.xml.
+The logger uses JitPack to package and install the project. Paste the code found below into your pom.xml. **Check tags for releases, not all changes in main are in the current release VERSION: `v1.0.0`**
 
 ```xml
 <dependencies>
