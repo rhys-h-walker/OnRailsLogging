@@ -77,7 +77,6 @@ Updates are located in three groups, Next is what I am currently working on, soo
 
 ### Next
 - Add more customisation:
-    - Allow for colour formatting
 	- Allow clearing of the console
 
 ### Soon

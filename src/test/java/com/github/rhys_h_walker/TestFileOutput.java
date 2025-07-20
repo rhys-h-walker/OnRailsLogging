@@ -45,7 +45,7 @@ public class TestFileOutput {
         System.out.println("Can write: " + testDir.canWrite());
         
         // Startup a new application for this file and set logging to NONE
-        Logger.initializeLogger("TestFileOutput", LoggingLevel.NONE);
+        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse());
     }
 
     private static Stream<Arguments> loggingTypesDataProvider() {
