@@ -1,5 +1,7 @@
 package com.github.rhys_h_walker;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
@@ -178,6 +180,11 @@ public class Logger {
         if (logFactory != null) {
             // Output to file regardless of logging level
             timestamp = logFactory.createNewLog(message, type);
+
+            // If timestamp is null then logging to file has failed, give a "good enough" timestamp
+            if (timestamp == null) {
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
+            }
 
             // Message will be empty if the logging level does not allow its output
             if (!printableMessage.equals("")){

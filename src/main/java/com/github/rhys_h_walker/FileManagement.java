@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.print.ServiceUIFactory;
+
 import com.github.rhys_h_walker.core_enums.LoggingType;
 
 /**
@@ -18,24 +20,58 @@ public class FileManagement {
     /**
      * Based on a timestamp either locate or create a file for logging
      * @param timestamp The timestamp to use to find the log file
-     * @return
+     * @return The File object, null on any errors
      */
     public static File locateFile(LocalDateTime ts, File applicationDirectory) {
-        // We have our timestamp in this format yyyy-MM-dd-HH:mm:ss
-        File loggingFile = new File(applicationDirectory.getAbsolutePath()+File.separator+ts.getYear()+File.separator+ts.getMonthValue()+File.separator+ts.getDayOfMonth()+File.separator+ts.getHour()+"_"+ts.getMinute()+"_"+ts.getSecond()+".log");
 
-        if (loggingFile.exists()){
-            return loggingFile;
-        } else {
-            File parentDirectory = loggingFile.getParentFile();
-            if (!parentDirectory.exists()) {
-                parentDirectory.mkdirs();
+        // Handle null cases for arguments
+        if (ts == null || applicationDirectory == null) {
+            System.err.println("timestamp is null or application directory is null");
+            return null;
+        }
+
+        try {
+            // We have our timestamp in this format yyyy-MM-dd-HH:mm:ss
+            File loggingFile = new File(applicationDirectory.getAbsolutePath() +
+                File.separator + ts.getYear() +
+                File.separator + ts.getMonthValue() +
+                File.separator + ts.getDayOfMonth() +
+                File.separator + ts.getHour()+"_" +
+                ts.getMinute() + "_"+
+                ts.getSecond() + ".log"
+            );
+
+            if (loggingFile.exists()){
+                return loggingFile;
+            } else {
+                File parentDirectory = loggingFile.getParentFile();
+                if (!parentDirectory.exists()) {
+                    boolean success = parentDirectory.mkdirs();
+                    
+                    // Handle failure of file creation gracefully
+                    if (!success) {
+                        System.err.println("Unsuccessfull creation of file: " + loggingFile.toString());
+                        return null;
+                    }
+                }
+                return loggingFile;
             }
-            return loggingFile;
+        } catch (SecurityException e) {
+            System.err.println("No permission to create/access the directory requested\n" + e);
+            return null;
+        } catch (Exception e) {
+            System.err.println("General exception on creating/accessing the directory requested\n" + e);
+            return null;
         }
     }
 
     public static void writeToLogFile(File logFile, String timestamp, LoggingType logType, String message, PrintWriter pw) {
+
+        if (pw == null) {
+            System.err.println("PrintWriter is null, returning without writing");
+            return;
+        }
+
         String logMessage = "[" + timestamp + "] " + logType.toString() + ": " + message; 
         pw.println(logMessage);
         pw.flush();

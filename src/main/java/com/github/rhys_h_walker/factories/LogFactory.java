@@ -24,6 +24,10 @@ public class LogFactory {
     private PrintWriter pw;
     private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
 
+    // Error reporting flags
+    private static boolean reportedFileSystemError = false;
+    private static boolean reportedPrintWriterError = false;
+
     /**
      * Create a LogFactory for a specific application
      * All logs will be located under this name like this:
@@ -36,17 +40,31 @@ public class LogFactory {
         // Now upon creation of this object check and create directories that are required
         String userHome = System.getProperty("user.home");
         applicationDirectory = new File(userHome, "OnRailsLogging" + File.separator + applicationName);
+
         if (!applicationDirectory.exists()) {
-            applicationDirectory.mkdirs();
+            boolean success = applicationDirectory.mkdirs();
+
+            if (!success) {
+                System.err.println("Creation of directory was not successfull in LogFactory constructor");
+                return;
+            }
         }
 
         // Assign our current printwriter
         LocalDateTime now = LocalDateTime.now();
         timestamp = now.format(df);
+
+        File initialLogFile = FileManagement.locateFile(now, applicationDirectory);
+        if (initialLogFile == null) {
+            System.err.println("Error in finding the initial log file, returning in constructor");
+            return;
+        }
+
         try {
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(FileManagement.locateFile(now, applicationDirectory))), true);
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(initialLogFile)), true);
         } catch (IOException e) {
-            System.err.println(e);
+            System.err.println("Failed to create printwriter, returning in constructor");
+            return;
         }
 
         // Close the PrintWriter when execution terminates
@@ -69,6 +87,13 @@ public class LogFactory {
 
         // Get the current log file
         File logFile = FileManagement.locateFile(now, applicationDirectory);
+        if (logFile == null) {
+            if (!reportedFileSystemError) {
+                reportedFileSystemError = true;
+                System.err.println("Error in creation/access of logFile");
+            }
+            return null;
+        }
 
         // printWriter will need updating if this is different
         if (!timestamp.equals(curTimestamp)) {
@@ -77,8 +102,19 @@ public class LogFactory {
                 pw.close();
                 pw = new PrintWriter(new BufferedWriter(new FileWriter(logFile)), true);
             } catch (IOException e) {
-                System.err.println(e);
+
+                if (!reportedPrintWriterError) {
+                    System.err.println("PrintWriter creation error:\n" + e);
+                }
+                
+                return null;
             }
+        }
+
+        // Should never be required
+        if (pw == null || pw.checkError()) {
+            System.err.println("Printwriter was either null or has found an error");
+            return null;
         }
 
         // Write to the log file
