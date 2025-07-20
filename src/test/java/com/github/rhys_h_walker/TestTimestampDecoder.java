@@ -24,7 +24,7 @@ public class TestTimestampDecoder {
     public static void startup() {
         // Startup a new application for this file
         // No output to console in this test is required
-        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse());
+        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse(), true);
     }
 
     private static Stream<Arguments> testTimestampDecodedProvider() {

@@ -33,8 +33,8 @@ public class Logger {
      * @param applicationName The name of the application we are logging for
      * @param level A HashMap detailing the level of logging
      */
-    public static void initializeLogger(String appName, HashMap<LoggingType, Boolean> logVisibility) {
-        commonConstructor(appName, logVisibility);
+    public static void initializeLogger(String appName, HashMap<LoggingType, Boolean> logVisibility, boolean consoleOnly) {
+        commonConstructor(appName, logVisibility, consoleOnly);
     }
 
     /**
@@ -42,8 +42,8 @@ public class Logger {
      *      LoggingLevel.ERRORS
      * @param applicationName The name of the application we are logging for
      */
-    public static void initializeLogger(String appName) {
-        commonConstructor(appName, LoggingType.defaultVisibility());
+    public static void initializeLogger(String appName, boolean consoleOnly) {
+        commonConstructor(appName, LoggingType.defaultVisibility(), consoleOnly);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Logger {
     public static String logmiscellaneous(String message) {
         String logMessage = "";
         if (logVisibility.get(LoggingType.MISCELLANEOUS)) {
-            logMessage = (ANSI.CYAN_BG + "Misc:" + ANSI.RESET + " " + ANSI.CYAN + message + ANSI.RESET);
+            logMessage = (ANSI.CYAN_BG + "MISCELLANEOUS:" + ANSI.RESET + " " + ANSI.CYAN + message + ANSI.RESET);
         }
 
         return produceLog(message, logMessage, LoggingType.MISCELLANEOUS);
@@ -106,7 +106,7 @@ public class Logger {
     public static String loginfo(String message) {
         String logMessage = "";
         if (logVisibility.get(LoggingType.INFO)) {
-            logMessage = (ANSI.BLUE_BG + "Info:" + ANSI.RESET + " " + ANSI.BLUE + message + ANSI.RESET);
+            logMessage = (ANSI.BLUE_BG + "INFO:" + ANSI.RESET + " " + ANSI.BLUE + message + ANSI.RESET);
         }
 
         return produceLog(message, logMessage, LoggingType.INFO);
@@ -120,7 +120,7 @@ public class Logger {
     public static String logwarn(String message) {
         String logMessage = "";
         if (logVisibility.get(LoggingType.WARN)) {
-            logMessage = (ANSI.MAGENTA_BG + "Warn:" + ANSI.RESET + " " + ANSI.MAGENTA + message + ANSI.RESET);
+            logMessage = (ANSI.MAGENTA_BG + "WARN:" + ANSI.RESET + " " + ANSI.MAGENTA + message + ANSI.RESET);
         }
 
         return produceLog(message, logMessage, LoggingType.WARN);
@@ -134,7 +134,7 @@ public class Logger {
     public static String logdebug(String message) {
         String logMessage = "";
         if (logVisibility.get(LoggingType.DEBUG)) {
-            logMessage = (ANSI.YELLOW_BG + "Debug:" + ANSI.RESET + " " + ANSI.YELLOW + message + ANSI.RESET);
+            logMessage = (ANSI.YELLOW_BG + "DEBUG:" + ANSI.RESET + " " + ANSI.YELLOW + message + ANSI.RESET);
         }
 
         return produceLog(message, logMessage, LoggingType.DEBUG);
@@ -148,7 +148,7 @@ public class Logger {
     public static String logprogress(String message) {
         String logMessage = "";
         if (logVisibility.get(LoggingType.PROGRESS)) {
-            logMessage = (ANSI.GREEN_BG + "Progress:" + ANSI.RESET + " " + ANSI.GREEN + message + ANSI.RESET);
+            logMessage = (ANSI.GREEN_BG + "PROGRESS:" + ANSI.RESET + " " + ANSI.GREEN + message + ANSI.RESET);
         }
 
         return produceLog(message, logMessage, LoggingType.PROGRESS);
@@ -163,7 +163,7 @@ public class Logger {
         String logMessage = "";
 
         if (logVisibility.get(LoggingType.ERROR)) {
-            logMessage = (ANSI.RED_BG + "Error:" + ANSI.RESET + " " + ANSI.RED + message + ANSI.RESET);
+            logMessage = (ANSI.RED_BG + "ERROR:" + ANSI.RESET + " " + ANSI.RED + message + ANSI.RESET);
         }
 
         return produceLog(message, logMessage, LoggingType.ERROR);
@@ -211,6 +211,7 @@ public class Logger {
             if (!printableMessage.equals("")){
                 timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
                 System.out.println("[" + timestamp + "] " + printableMessage);
+                return timestamp;
             }
         }
 
@@ -222,7 +223,7 @@ public class Logger {
      * @param appName The name of the application
      * @param customisedVisibility The visibility of each log
      */
-    private static void commonConstructor(String appName, HashMap<LoggingType, Boolean> customisedVisibility) {
+    private static void commonConstructor(String appName, HashMap<LoggingType, Boolean> customisedVisibility, boolean consoleOnly) {
         // Reset error flags
         logFactoryNullErrorReported = false;
 
@@ -239,6 +240,13 @@ public class Logger {
             logVisibility = LoggingType.defaultVisibility();
         } else {
             logVisibility = customisedVisibility;
+        }
+
+        if (consoleOnly) {
+            // They don't want file output so silence the error
+            logFactoryNullErrorReported = true;
+            logFactory = null;
+            return;
         }
         
         // Attempt to make a logFactory, if this fails then output and fallback to console only
