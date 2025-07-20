@@ -38,13 +38,8 @@ public class TestFileOutput {
         // Override user.home to point to our test directory
         System.setProperty("user.home", testDir.getParent());
         
-        // Print debug info for CI
-        System.out.println("Test directory: " + testDir.getAbsolutePath());
-        System.out.println("User home: " + System.getProperty("user.home"));
-        System.out.println("Can write: " + testDir.canWrite());
-        
         // Startup a new application for this file and set logging to NONE
-        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse());
+        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse(), false);
     }
 
     private static Stream<Arguments> loggingTypesDataProvider() {
