@@ -34,11 +34,25 @@ public class LogFactory {
      * 
      * user.home/OnRailsLogging/applicationName/ regular dated directory structure
      * 
+     * THIS METHOD WILL RETURN ON ANY ERROR
+     * 
      * @param applicationName The name to be used
      */
     public LogFactory(String applicationName) {
+        // Reset flags on creation of LogFactory
+        reportedFileSystemError = false;
+        reportedPrintWriterError = false;
+
         // Now upon creation of this object check and create directories that are required
         String userHome = System.getProperty("user.home");
+
+        if (userHome == null) {
+            // User home not accessible, falling back to console Logging
+            System.err.println("User home not accessible, falling back to console Logging");
+            return;
+        }
+
+        // Save the directory that will be being used later
         applicationDirectory = new File(userHome, "OnRailsLogging" + File.separator + applicationName);
 
         if (!applicationDirectory.exists()) {

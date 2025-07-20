@@ -3,11 +3,10 @@ package com.github.rhys_h_walker;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
-import javax.print.ServiceUIFactory;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
 
@@ -79,31 +78,39 @@ public class FileManagement {
 
     /**
      * Read in a log file and return it split by line
-     * @param logFile
-     * @return
+     * @param logFile The File to be read from
+     * @return An ArrayList of Strings, null if error
      */
     public static ArrayList<String> readLogFile(File logFile) {
 
-        if (!logFile.exists()) {
-            System.exit(1);
-        }
-
-        ArrayList<String> lines = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(logFile));
-            String line = reader.readLine();
-            while (line != null) {
-                lines.add(line);
-                line = reader.readLine();
-            }
-            reader.close();
-
-            return lines;
-        } catch(Exception e) {
-            // Failure detected error and then return null
-            System.err.println("Failed opening file " + e);
+        if (logFile == null) {
+            System.err.println("LogFile is null when trying to read");
             return null;
         }
+
+        if (!logFile.exists()) {
+            System.err.println("File does not exist, nothing to read");
+            return null;
+        }
+
+        if (logFile.canRead()) {
+            System.err.println("File cannot be read, incorrect permissions!");
+            return null;
+        }
+
+        ArrayList<String> logs = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logs.add(line);
+            }
+        } catch (IOException e) {
+            System.err.println("OnRailsLogger: Error reading log file: " + e.getMessage());
+            // Return partial results instead of crashing
+        }
+
+        return logs;
 
     }
 }
