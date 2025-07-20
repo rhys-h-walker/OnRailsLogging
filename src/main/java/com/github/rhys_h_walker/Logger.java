@@ -90,6 +90,11 @@ public class Logger {
      * @return the timestamp of the log
      */
     public static String logmiscellaneous(String message) {
+
+        if (logVisibility == null) {
+            return null;
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.MISCELLANEOUS)) {
             logMessage = (ANSI.CYAN_BG + "MISCELLANEOUS:" + ANSI.RESET + " " + ANSI.CYAN + message + ANSI.RESET);
@@ -104,6 +109,11 @@ public class Logger {
      * @return the timestamp of the log
      */
     public static String loginfo(String message) {
+
+        if (logVisibility == null) {
+            return null;
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.INFO)) {
             logMessage = (ANSI.BLUE_BG + "INFO:" + ANSI.RESET + " " + ANSI.BLUE + message + ANSI.RESET);
@@ -118,6 +128,11 @@ public class Logger {
      * @return the timestamp of the log
      */
     public static String logwarn(String message) {
+
+        if (logVisibility == null) {
+            return null;
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.WARN)) {
             logMessage = (ANSI.MAGENTA_BG + "WARN:" + ANSI.RESET + " " + ANSI.MAGENTA + message + ANSI.RESET);
@@ -132,6 +147,11 @@ public class Logger {
      * @return the timestamp of the log
      */
     public static String logdebug(String message) {
+
+        if (logVisibility == null) {
+            return null;
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.DEBUG)) {
             logMessage = (ANSI.YELLOW_BG + "DEBUG:" + ANSI.RESET + " " + ANSI.YELLOW + message + ANSI.RESET);
@@ -146,6 +166,11 @@ public class Logger {
      * @return the timestamp of the log
      */
     public static String logprogress(String message) {
+
+        if (logVisibility == null) {
+            return null;
+        }
+
         String logMessage = "";
         if (logVisibility.get(LoggingType.PROGRESS)) {
             logMessage = (ANSI.GREEN_BG + "PROGRESS:" + ANSI.RESET + " " + ANSI.GREEN + message + ANSI.RESET);
@@ -160,6 +185,11 @@ public class Logger {
      * @return the timestamp of the log
      */
     public static String logerror(String message) {
+
+        if (logVisibility == null) {
+            return null;
+        }
+        
         String logMessage = "";
 
         if (logVisibility.get(LoggingType.ERROR)) {
