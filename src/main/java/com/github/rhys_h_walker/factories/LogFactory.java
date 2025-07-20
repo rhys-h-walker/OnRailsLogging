@@ -28,6 +28,9 @@ public class LogFactory {
     private static boolean reportedFileSystemError = false;
     private static boolean reportedPrintWriterError = false;
 
+    // Non LogFactory error reporting fields
+    private boolean initialized = false;
+
     /**
      * Create a LogFactory for a specific application
      * All logs will be located under this name like this:
@@ -86,6 +89,15 @@ public class LogFactory {
             if (pw != null) pw.close();
         }));
 
+        initialized = true;
+    }
+
+    /**
+     * Has this LogFactory been initialized
+     * @return true if ok, false if not ok
+     */
+    public boolean initialized() {
+        return initialized;
     }
 
     /**
@@ -118,6 +130,7 @@ public class LogFactory {
             } catch (IOException e) {
 
                 if (!reportedPrintWriterError) {
+                    reportedPrintWriterError = true;
                     System.err.println("PrintWriter creation error:\n" + e);
                 }
                 

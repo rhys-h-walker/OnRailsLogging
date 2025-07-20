@@ -244,6 +244,12 @@ public class Logger {
         // Attempt to make a logFactory, if this fails then output and fallback to console only
         try {
             logFactory = new LogFactory(appName);
+
+            if (!logFactory.initialized()) {
+                System.err.println("Log factory initialization not successfull, closing it down.\nReverting to console only logging");
+                logFactory = null;
+            }
+
         } catch (SecurityException e) {
             System.err.println("Security restriction during initialization: " + e.getMessage());
             System.err.println("Falling back to console-only logging.");

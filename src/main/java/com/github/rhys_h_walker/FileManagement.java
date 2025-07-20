@@ -93,7 +93,7 @@ public class FileManagement {
             return null;
         }
 
-        if (logFile.canRead()) {
+        if (!logFile.canRead()) {
             System.err.println("File cannot be read, incorrect permissions!");
             return null;
         }
