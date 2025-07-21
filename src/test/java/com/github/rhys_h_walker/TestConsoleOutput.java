@@ -31,6 +31,7 @@ class TestConsoleOutput {
     @AfterEach
     void tearDown() {
         consoleCapture.stopCapture();
+        Logger.shutdown();
     }
 
     private static Stream<Arguments> ansiColorTestData() {
@@ -68,5 +69,35 @@ class TestConsoleOutput {
         assertTrue(output.contains("[" + timestamp + "]"), "Output should contain timestamp in brackets");
         assertTrue(output.contains(BGCode + logType.toString() +":" + ANSI.RESET), "Should contain" + BGCode + "background for LogType");
         assertTrue(output.contains(CharCode + message + ANSI.RESET), "Should contain" + CharCode + "text for message");
+    }
+    
+    private static Stream<Arguments> testLogVisibilityDataProvider() {
+        return Stream.of(
+            arguments(LoggingType.MISCELLANEOUS, (Function<String, String>) Logger::logmiscellaneous, "MISC MESSAGE"),
+            arguments(LoggingType.INFO, (Function<String, String>) Logger::loginfo, "INFO MESSAGE"),
+            arguments(LoggingType.WARN, (Function<String, String>) Logger::logwarn, "WARN MESSAGE"),
+            arguments(LoggingType.DEBUG, (Function<String, String>) Logger::logdebug, "DEBUG MESSAGE"),
+            arguments(LoggingType.PROGRESS, (Function<String, String>) Logger::logprogress, "PROGRESS MESSAGE"),
+            arguments(LoggingType.ERROR, (Function<String, String>) Logger::logerror, "ERROR MESSAGE")
+        );
+    }
+    // Test that when true the log shows, then when false it does not show
+    @ParameterizedTest
+    @MethodSource("testLogVisibilityDataProvider")
+    void testLogVisibility(LoggingType logType, Function<String, String> func, String message) {
+
+        // Message should appear in console output
+        func.apply(message);
+        String output = consoleCapture.getOutput();
+        assertTrue(output.contains(message));
+
+        Logger.changeLogVisibility(logType, false);
+        consoleCapture.clearCapture();
+
+        // Message should no longer appear in console output
+        func.apply(message);
+        output = consoleCapture.getOutput();
+        assertFalse(output.contains(message));
+
     }
 }

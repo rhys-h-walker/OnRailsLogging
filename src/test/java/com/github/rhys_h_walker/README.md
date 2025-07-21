@@ -9,6 +9,7 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
     - String in Array
     - Format a String
     - File location creation
+    - Ensure console output matches currently set visibility
 - Configuration:
     - Default visibility settings
     - GetApplicationName
@@ -22,7 +23,6 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
 ## To implement
 - Core:
     - File rotation behaviour - *still to implement*
-    - Ensure console output matches currently set visibility
 - Configuration
     - Nothing for now!
 - LoggingType:
