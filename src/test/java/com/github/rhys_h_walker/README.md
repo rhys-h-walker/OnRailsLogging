@@ -14,7 +14,7 @@
     - File location/creation
     - Directory structure creation
     - File content verification
-    - File rotation behaviour - still to implement
+    - File rotation behaviour - *still to implement*
 - Configuration
     - ChangeVisibility
     - ViewLogVisibility

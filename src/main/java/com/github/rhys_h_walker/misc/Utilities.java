@@ -1,5 +1,8 @@
 package com.github.rhys_h_walker.misc;
 
+import java.io.File;
+import java.time.LocalDateTime;
+
 /**
  * A class of general purpose utilities
  */
@@ -27,6 +30,22 @@ public class Utilities {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Create a path from a timestamp and app directory
+     * @param ts Timestamp to format fileString from
+     * @param applicationDirectory The directory to begin searching from
+     * @return
+     */
+    public static String formatFilepathFromTimestamp(LocalDateTime ts, File applicationDirectory) {
+        return applicationDirectory.getAbsolutePath() +
+                File.separator + ts.getYear() +
+                File.separator + ts.getMonthValue() +
+                File.separator + ts.getDayOfMonth() +
+                File.separator + ts.getHour()+"_" +
+                ts.getMinute() + "_"+
+                ts.getSecond() + ".log";
     }
 
 }

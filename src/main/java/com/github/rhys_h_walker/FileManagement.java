@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
+import com.github.rhys_h_walker.misc.Utilities;
 
 /**
  * A static class which implements most of the IO features required by OnRailsLogger
@@ -31,14 +32,7 @@ public class FileManagement {
 
         try {
             // We have our timestamp in this format yyyy-MM-dd-HH:mm:ss
-            File loggingFile = new File(applicationDirectory.getAbsolutePath() +
-                File.separator + ts.getYear() +
-                File.separator + ts.getMonthValue() +
-                File.separator + ts.getDayOfMonth() +
-                File.separator + ts.getHour()+"_" +
-                ts.getMinute() + "_"+
-                ts.getSecond() + ".log"
-            );
+            File loggingFile = new File(Utilities.formatFilepathFromTimestamp(ts, applicationDirectory));
 
             if (loggingFile.exists()){
                 return loggingFile;
