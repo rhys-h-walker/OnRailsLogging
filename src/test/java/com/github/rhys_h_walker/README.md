@@ -15,6 +15,8 @@
     - ChangeVisibility
     - ViewLogVisibility
     - Ensure shutdown and initialize restarts under a different name / different visibility
+- LoggingType:
+    - Test returned maps are correct
 
 ## To implement
 - Core:
@@ -23,7 +25,7 @@
 - Configuration
     - Nothing for now!
 - LoggingType:
-    - Test returned maps are correct
+    - Nothing for now!
 - Error handling
     - Permission denied scenarios
     - Null configuration handling
@@ -33,9 +35,9 @@
     - LogFactory initialization failures
     - PrintWriter creation failures
     - File locking Scenarios
-- Thread safety
+- Thread safety - *Not of current concern*
     - Potentially will remain untested
-- Cross-platform testing
+- Cross-platform testing - *Not of current concern*
     - Potentially may remain untested
     - Path characters on (Windows/Unix/Mac)
     - Case sensitivity (Platform dependent)
