@@ -21,6 +21,9 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
     - Empty application names
 - LoggingType:
     - Test returned maps are correct
+- LogFactory:
+    - PrintWriter recreation, for timestamps
+    - isInitialized status checking
 
 ## To implement
 - Core:
@@ -40,9 +43,7 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
     - File locking Scenarios
     - Shutdown hook execution
 - LogFactory
-    - isInitialized status checking
     - Constructor error handling
-    - PrintWriter recreation, for timestamps
     - ErrorFlag management
 - Input validation
     - Nothing for now!
