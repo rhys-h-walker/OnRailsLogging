@@ -81,6 +81,28 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
         </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.6.3</version>
+            <configuration>
+                <source>21</source>
+                <target>21</target>
+                <show>public</show>
+                <windowTitle>OnRailsLogger API Documentation</windowTitle>
+                <doctitle>OnRailsLogger v${project.version}</doctitle>
+                <header>&lt;b&gt;OnRailsLogger ${project.version}&lt;/b&gt;</header>
+                <footer>&lt;b&gt;OnRailsLogger ${project.version}&lt;/b&gt;</footer>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
