@@ -24,29 +24,64 @@ public class LogFactory {
     private PrintWriter pw;
     private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
 
+    // Error reporting flags
+    private static boolean reportedFileSystemError = false;
+    private static boolean reportedPrintWriterError = false;
+
+    // Non LogFactory error reporting fields
+    private boolean initialized = false;
+
     /**
      * Create a LogFactory for a specific application
      * All logs will be located under this name like this:
      * 
      * user.home/OnRailsLogging/applicationName/ regular dated directory structure
      * 
+     * THIS METHOD WILL RETURN ON ANY ERROR
+     * 
      * @param applicationName The name to be used
      */
     public LogFactory(String applicationName) {
+        // Reset flags on creation of LogFactory
+        reportedFileSystemError = false;
+        reportedPrintWriterError = false;
+
         // Now upon creation of this object check and create directories that are required
         String userHome = System.getProperty("user.home");
+
+        if (userHome == null) {
+            // User home not accessible, falling back to console Logging
+            System.err.println("User home not accessible, falling back to console Logging");
+            return;
+        }
+
+        // Save the directory that will be being used later
         applicationDirectory = new File(userHome, "OnRailsLogging" + File.separator + applicationName);
+
         if (!applicationDirectory.exists()) {
-            applicationDirectory.mkdirs();
+            boolean success = applicationDirectory.mkdirs();
+
+            if (!success) {
+                System.err.println("Creation of directory was not successfull in LogFactory constructor");
+                return;
+            }
         }
 
         // Assign our current printwriter
         LocalDateTime now = LocalDateTime.now();
         timestamp = now.format(df);
+
+        File initialLogFile = FileManagement.locateFile(now, applicationDirectory);
+        if (initialLogFile == null) {
+            System.err.println("Error in finding the initial log file, returning in constructor");
+            return;
+        }
+
         try {
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(FileManagement.locateFile(now, applicationDirectory))), true);
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(initialLogFile)), true);
         } catch (IOException e) {
-            System.err.println(e);
+            System.err.println("Failed to create printwriter, returning in constructor");
+            return;
         }
 
         // Close the PrintWriter when execution terminates
@@ -54,6 +89,15 @@ public class LogFactory {
             if (pw != null) pw.close();
         }));
 
+        initialized = true;
+    }
+
+    /**
+     * Has this LogFactory been initialized
+     * @return true if ok, false if not ok
+     */
+    public boolean initialized() {
+        return initialized;
     }
 
     /**
@@ -69,6 +113,13 @@ public class LogFactory {
 
         // Get the current log file
         File logFile = FileManagement.locateFile(now, applicationDirectory);
+        if (logFile == null) {
+            if (!reportedFileSystemError) {
+                reportedFileSystemError = true;
+                System.err.println("Error in creation/access of logFile");
+            }
+            return null;
+        }
 
         // printWriter will need updating if this is different
         if (!timestamp.equals(curTimestamp)) {
@@ -77,13 +128,43 @@ public class LogFactory {
                 pw.close();
                 pw = new PrintWriter(new BufferedWriter(new FileWriter(logFile)), true);
             } catch (IOException e) {
-                System.err.println(e);
+
+                if (!reportedPrintWriterError) {
+                    reportedPrintWriterError = true;
+                    System.err.println("PrintWriter creation error:\n" + e);
+                }
+                
+                return null;
             }
+        }
+
+        // Should never be required
+        if (pw == null || pw.checkError()) {
+            System.err.println("Printwriter was either null or has found an error");
+            return null;
         }
 
         // Write to the log file
         FileManagement.writeToLogFile(logFile, timestamp, logType, message, pw);
 
         return timestamp;
+    }
+
+    /**
+     * Close any system resources correctly
+     * @return
+     */
+    public boolean cleanup() {
+
+        if (pw == null) {
+            return true;
+        }
+
+        pw.flush();
+        pw.close();
+        pw = null;
+
+        return true;
+
     }
 }

@@ -24,12 +24,12 @@ public class TestTimestampDecoder {
     public static void startup() {
         // Startup a new application for this file
         // No output to console in this test is required
-        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse());
+        Logger.initializeLogger("Test", LoggingType.logVisibilityAllFalse(), true);
     }
 
     private static Stream<Arguments> testTimestampDecodedProvider() {
 
-        String knownExtension = System.getProperty("user.home")+File.separator+"OnRailsLogging"+File.separator+"TestFileOutput"+File.separator;
+        String knownExtension = System.getProperty("user.home")+File.separator+"OnRailsLogging"+File.separator+"Test"+File.separator;
 
         return Stream.of (
             arguments("2025-07-18-14:52:26", knownExtension+"2025"+File.separator+"7"+File.separator+"18"+File.separator+"14_52_26.log"),

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,6 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.github.rhys_h_walker.core_enums.LoggingType;
 import com.github.rhys_h_walker.misc.TimestampDecoder;
+import com.github.rhys_h_walker.testing_utilities.Helpers;
 
 /**
  * A test class testing the output of logs to a file
@@ -25,26 +27,23 @@ public class TestFileOutput {
     @BeforeAll
     public static void startup() {
         // Create a test-specific directory in temp space (Allows functionality on CI)
-        String tempDir = System.getProperty("java.io.tmpdir");
-        File testDir = new File(tempDir, "OnRailsLogging-test");
+        String tempDir = System.getProperty("java.io.tmpdir")+File.separator+"OnRailsLogging"+File.separator+"TestFileOutput";
+
+        File testDir = new File(System.getProperty("user.home"), "OnRailsLogging"+File.separator+"TestFileOutput");
+
+        testDir.mkdir();
         
         if (!testDir.exists()) {
-            boolean created = testDir.mkdirs();
+            boolean created = new File(tempDir).mkdirs();
             if (!created) {
                 throw new RuntimeException("Failed to create test directory: " + testDir.getAbsolutePath());
             }
+            // Override user.home to point to our test directory
+            System.setProperty("user.home", testDir.getParent());
         }
         
-        // Override user.home to point to our test directory
-        System.setProperty("user.home", testDir.getParent());
-        
-        // Print debug info for CI
-        System.out.println("Test directory: " + testDir.getAbsolutePath());
-        System.out.println("User home: " + System.getProperty("user.home"));
-        System.out.println("Can write: " + testDir.canWrite());
-        
         // Startup a new application for this file and set logging to NONE
-        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse());
+        Logger.initializeLogger("TestFileOutput", LoggingType.logVisibilityAllFalse(), false);
     }
 
     private static Stream<Arguments> loggingTypesDataProvider() {
@@ -73,6 +72,13 @@ public class TestFileOutput {
 
         // Assert that the formatted line is present in the file
         assertTrue(Helpers.isStringInList(Helpers.formatALine(timestamp, type, message), fileContents));
+    }
+
+    @AfterAll
+    static void cleanup() {
+        // Remove application called Test
+        Logger.shutdown();
+        Helpers.deleteNonEmptyTestDirectory("TestFileOutput");
     }
     
 }
