@@ -81,6 +81,7 @@ class TestConsoleOutput {
             arguments(LoggingType.ERROR, (Function<String, String>) Logger::logerror, "ERROR MESSAGE")
         );
     }
+
     // Test that when true the log shows, then when false it does not show
     @ParameterizedTest
     @MethodSource("testLogVisibilityDataProvider")
@@ -99,5 +100,29 @@ class TestConsoleOutput {
         output = consoleCapture.getOutput();
         assertFalse(output.contains(message));
 
+    }
+
+    private static Stream<Arguments> testNullStringsDataProvider() {
+        return Stream.of(
+            arguments((Function<String, String>) Logger::logmiscellaneous, null),
+            arguments((Function<String, String>) Logger::loginfo),
+            arguments((Function<String, String>) Logger::logwarn),
+            arguments((Function<String, String>) Logger::logdebug),
+            arguments((Function<String, String>) Logger::logprogress),
+            arguments((Function<String, String>) Logger::logerror)
+        );
+    }
+
+    // Test that each logging type will output null as a String when given it
+    @ParameterizedTest
+    @MethodSource("testNullStringsDataProvider")
+    void testNullStrings(Function<String, String> func) {
+        func.apply(null);
+
+        String output = consoleCapture.getOutput();
+
+        assertTrue(output.contains("null"));
+
+        consoleCapture.clearCapture();
     }
 }
