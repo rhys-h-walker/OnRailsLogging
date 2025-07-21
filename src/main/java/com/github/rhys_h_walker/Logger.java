@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.github.rhys_h_walker.core_enums.LoggingType;
 import com.github.rhys_h_walker.factories.LogFactory;
 import com.github.rhys_h_walker.misc.ANSI;
+import com.github.rhys_h_walker.misc.Utilities;
 
 /**
  * The primary entrypoint for a the logger.
@@ -330,6 +331,11 @@ public class Logger {
         // Check the appName for issues (No app needed for console only output)
         if (appName == null || appName.trim().isEmpty()) {
             System.err.println("Initialization failed due to appName being null or empty. Logger will only output to console");
+            return;
+        }
+        appName = Utilities.cleanFileNameString(appName);
+        if (appName == null) {
+            System.err.println("Error in sanitization of filename");
             return;
         }
         applicationName = appName;
