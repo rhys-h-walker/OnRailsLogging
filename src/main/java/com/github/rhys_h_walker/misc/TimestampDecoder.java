@@ -10,6 +10,10 @@ import com.github.rhys_h_walker.Logger;
 
 public class TimestampDecoder {
 
+    private TimestampDecoder() {
+        // Private constructor so is uninstantiatable
+    }
+
     /**
      * Resolve a timestamp into a File object for Java
      * This method assumes the timestamp given complies with the format

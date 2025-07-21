@@ -25,23 +25,28 @@ public class Logger {
     // Booleans to not spam with log errors
     private static boolean logFactoryNullErrorReported = false;
 
+    private Logger() {
+        // Private constructor so is uninstantiatable
+    }
+
     //
     // Overrriden initializeLogger which allows for different initialization configurations
     //
 
     /**
      * Initialize the logging logic
-     * @param applicationName The name of the application we are logging for
-     * @param level A HashMap detailing the level of logging
+     * @param appName The name of the application we are logging for
+     * @param logVisibility A HashMap detailing the level of logging
+     * @param consoleOnly Boolean indicating console only logging
      */
     public static void initializeLogger(String appName, HashMap<LoggingType, Boolean> logVisibility, boolean consoleOnly) {
         commonConstructor(appName, logVisibility, consoleOnly);
     }
 
     /**
-     * Initialize the logging logic with the default value of =
-     *      LoggingLevel.ERRORS
-     * @param applicationName The name of the application we are logging for
+     * Initialize with an application name and default logging visibility
+     * @param appName The name of the application we are logging for
+     * @param consoleOnly Boolean indicating console only logging
      */
     public static void initializeLogger(String appName, boolean consoleOnly) {
         commonConstructor(appName, LoggingType.defaultVisibility(), consoleOnly);
@@ -80,7 +85,7 @@ public class Logger {
 
     /**
      * Get the log visibility map
-     * @return
+     * @return Log visibility map
      */
     public static HashMap<LoggingType, Boolean> viewVisibilityMap() {
 
@@ -90,6 +95,9 @@ public class Logger {
 
     /**
      * Set the log visibility map
+     * 
+     * This map must have all 6 logging types included with none set to null value
+     * 
      * @param newVisibility The new hashmap to set
      */
     public static void changeLogVisibilityMap(HashMap<LoggingType, Boolean> newVisibility) {
@@ -118,12 +126,15 @@ public class Logger {
 
     /**
      * Get the name of the currently running application
-     * @return String -> Currently running application
+     * @return Currently running application name
      */
     public static String getApplicationName() {
         return applicationName;
     }
 
+    /**
+     * Shutdown command for the logger, releases all system resources.
+     */
     public static void shutdown() {
         if (logFactory != null) {
             logFactory.cleanup();
@@ -135,7 +146,7 @@ public class Logger {
 
     /**
      * Log a miscellaneous message
-     * @param message
+     * @param message Message to be logged
      * @return the timestamp of the log
      */
     public static String logmiscellaneous(String message) {
@@ -158,7 +169,7 @@ public class Logger {
 
     /**
      * Log a info message
-     * @param message
+     * @param message Message to be logged
      * @return the timestamp of the log
      */
     public static String loginfo(String message) {
@@ -181,7 +192,7 @@ public class Logger {
 
     /**
      * Log a warning message
-     * @param message
+     * @param message Message to be logged
      * @return the timestamp of the log
      */
     public static String logwarn(String message) {
@@ -204,7 +215,7 @@ public class Logger {
 
     /**
      * Log a debug message
-     * @param message
+     * @param message Message to be logged
      * @return the timestamp of the log
      */
     public static String logdebug(String message) {
@@ -227,7 +238,7 @@ public class Logger {
 
     /**
      * Log a progress message
-     * @param message
+     * @param message Message to be logged
      * @return the timestamp of the log
      */
     public static String logprogress(String message) {
@@ -250,7 +261,7 @@ public class Logger {
 
     /**
      * Log an error message
-     * @param message
+     * @param message Message to be logged
      * @return the timestamp of the log
      */
     public static String logerror(String message) {
@@ -280,7 +291,7 @@ public class Logger {
      * Output a log message and create the log in memory
      * @param message The message formatted without colours to be output
      * @param printableMessage The message formatted with ANSI codes
-     * @param level The logging level for creation of the log in memory
+     * @param type The logging level for creation of the log in memory
      * @return the timestamp of the log, null if log factory not set, or LoggingLevel does not allow its outpu
      */
     private static synchronized String produceLog(String message, String printableMessage, LoggingType type) {
@@ -325,6 +336,7 @@ public class Logger {
      * Run common methods featured in other constructors
      * @param appName The name of the application
      * @param customisedVisibility The visibility of each log
+     * @param consoleOnly Is the app running in a console only environment
      */
     private static void commonConstructor(String appName, HashMap<LoggingType, Boolean> customisedVisibility, boolean consoleOnly) {
         // Reset error flags

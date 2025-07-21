@@ -15,6 +15,10 @@ public class Utilities {
         "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
         "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
     };
+
+    private Utilities() {
+        // Private constructor so is uninstantiatable
+    }
     
     /**
      * Remove all leading zeros from a String
@@ -43,7 +47,7 @@ public class Utilities {
      * Create a path from a timestamp and app directory
      * @param ts Timestamp to format fileString from
      * @param applicationDirectory The directory to begin searching from
-     * @return
+     * @return String representing the path to a .log file
      */
     public static String formatFilepathFromTimestamp(LocalDateTime ts, File applicationDirectory) {
         return applicationDirectory.getAbsolutePath() +
@@ -57,7 +61,7 @@ public class Utilities {
 
     /**
      * Clean a non empty String for use as a filename
-     * REGEX USED = INVALID_FILENAME_CHARS_REGEX: [<>:\"|?*\\\\/\\x00-\\x1F]
+     * REGEX USED = INVALID_FILENAME_CHARS_REGEX *Check Utilities.java*
      * Trailing dots and spaces removed
      * File name size limit imposed 100 chars
      * 

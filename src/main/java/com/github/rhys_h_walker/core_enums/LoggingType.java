@@ -9,11 +9,29 @@ import java.util.HashMap;
  */
 
 public enum LoggingType {
+    /**
+     * Logging of any error messages
+     */
     ERROR,
+    /**
+     * Logging of any messages that signify progress of the system
+     */
     PROGRESS,
+    /**
+     * Logging of any debuging information
+     */
     DEBUG,
+    /**
+     * Logging of any general information about the system
+     */
     INFO,
+    /**
+     * Logging of any warnings that the program may create
+     */
     WARN,
+    /**
+     * Logging of miscelaneous messages that do not fit into any other category
+     */
     MISCELLANEOUS;
 
     /**

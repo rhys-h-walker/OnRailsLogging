@@ -13,9 +13,8 @@ import com.github.rhys_h_walker.FileManagement;
 
 /**
  * Class that creates and stores logs in the correct location based on information
- * supplied upon construction of the logger
- * For most use cases the construction of a Log object is pointless.
- * It is only needed when viewing
+ * supplied upon construction of the logger. This class handles the cycling of the
+ * PrintWriter object.
  */
 
 public class LogFactory {
@@ -104,7 +103,7 @@ public class LogFactory {
      * Create a new log given a log type and message
      * @param message The message to acompany the log
      * @param logType The type to be logged
-     * @return A string representing the timestamp for the log
+     * @return The timestamp String to use, format of (YYYY-MM-DD-HH:MM:SS)
      */
     public String createNewLog(String message, LoggingType logType) {
         // Get the timestamp and locate the file that is relevent
@@ -145,14 +144,14 @@ public class LogFactory {
         }
 
         // Write to the log file
-        FileManagement.writeToLogFile(logFile, timestamp, logType, message, pw);
+        FileManagement.writeToLogFile(timestamp, logType, message, pw);
 
         return timestamp;
     }
 
     /**
      * Close any system resources correctly
-     * @return
+     * @return true for success (Can only return true, retained functionality for future updates)
      */
     public boolean cleanup() {
 

@@ -17,9 +17,14 @@ import com.github.rhys_h_walker.misc.Utilities;
 
 public class FileManagement {
 
+    private FileManagement() {
+        // Private constructor so is uninstantiatable
+    }
+
     /**
      * Based on a timestamp either locate or create a file for logging
-     * @param timestamp The timestamp to use to find the log file
+     * @param ts The timestamp String to use, format of (YYYY-MM-DD-HH:MM:SS)
+     * @param applicationDirectory A File object which points to the current applications logging directory
      * @return The File object, null on any errors
      */
     public static File locateFile(LocalDateTime ts, File applicationDirectory) {
@@ -58,7 +63,14 @@ public class FileManagement {
         }
     }
 
-    public static void writeToLogFile(File logFile, String timestamp, LoggingType logType, String message, PrintWriter pw) {
+    /**
+     * Write a log message to a given file.
+     * @param timestamp The timestamp String to use, format of (YYYY-MM-DD-HH:MM:SS)
+     * @param logType The type of log that is being output
+     * @param message The logging message that is being output
+     * @param pw Printwriter which is pointed to the file to write, this is cycled in log factory
+     */
+    public static void writeToLogFile(String timestamp, LoggingType logType, String message, PrintWriter pw) {
 
         if (pw == null) {
             System.err.println("PrintWriter is null, returning without writing");
@@ -73,7 +85,7 @@ public class FileManagement {
     /**
      * Read in a log file and return it split by line
      * @param logFile The File to be read from
-     * @return An ArrayList of Strings, null if error
+     * @return An ArrayList of Strings (Each string is a line), null if error
      */
     public static ArrayList<String> readLogFile(File logFile) {
 
