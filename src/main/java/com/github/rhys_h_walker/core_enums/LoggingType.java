@@ -68,7 +68,7 @@ public enum LoggingType {
      * The default hashmap that is created will only feature ERROR: True
      * @return Default HashMap to use
      */
-    public static HashMap<LoggingType, Boolean> defaultVisibility() {
+    public static HashMap<LoggingType, Boolean> errorOnlyHashMap() {
         HashMap<LoggingType, Boolean> defaultLog = new HashMap<>();
         for (LoggingType type : LoggingType.values()) {
             defaultLog.put(type, false);

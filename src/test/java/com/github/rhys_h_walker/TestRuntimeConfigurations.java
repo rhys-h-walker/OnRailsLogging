@@ -30,7 +30,7 @@ public class TestRuntimeConfigurations {
     void testDefaultConfiguration() {
         Logger.initializeLogger("Test", true);
 
-        HashMap<LoggingType, Boolean> defaultExpected = LoggingType.defaultVisibility();
+        HashMap<LoggingType, Boolean> defaultExpected = LoggingType.logVisibilityAllTrue();
         HashMap<LoggingType, Boolean> set = Logger.viewVisibilityMap();
 
         assertTrue(defaultExpected.equals(set));
@@ -77,7 +77,7 @@ public class TestRuntimeConfigurations {
 
     private static Stream<Arguments> checkMapSetDataProvider() {
         return Stream.of(
-            arguments(LoggingType.defaultVisibility()),
+            arguments(LoggingType.errorOnlyHashMap()),
             arguments(LoggingType.logVisibilityAllFalse()),
             arguments(LoggingType.logVisibilityAllTrue())
         );
@@ -99,11 +99,11 @@ public class TestRuntimeConfigurations {
 
     private static Stream<Arguments> testViewLogVisibilityDataProvider() {
         return Stream.of(
-            arguments(LoggingType.MISCELLANEOUS, true),
-            arguments(LoggingType.INFO, true),
-            arguments(LoggingType.WARN, true),
-            arguments(LoggingType.DEBUG, true),
-            arguments(LoggingType.PROGRESS, true),
+            arguments(LoggingType.MISCELLANEOUS, false),
+            arguments(LoggingType.INFO, false),
+            arguments(LoggingType.WARN, false),
+            arguments(LoggingType.DEBUG, false),
+            arguments(LoggingType.PROGRESS, false),
             arguments(LoggingType.ERROR, false)
         );
     }

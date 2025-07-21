@@ -26,7 +26,7 @@ public class TestLoggingType {
     private static Stream<Arguments> testVisibilityMapCorrectnessDataProvider() {
         // ArrayList represents those that should be True
         return Stream.of(
-            arguments(LoggingType.defaultVisibility(), new ArrayList<LoggingType>(List.of(LoggingType.ERROR))),
+            arguments(LoggingType.errorOnlyHashMap(), new ArrayList<LoggingType>(List.of(LoggingType.ERROR))),
             arguments(LoggingType.logVisibilityAllFalse(), new ArrayList<LoggingType>()),
             arguments(LoggingType.logVisibilityAllTrue(), new ArrayList<LoggingType>(Arrays.asList(LoggingType.values())))
         );

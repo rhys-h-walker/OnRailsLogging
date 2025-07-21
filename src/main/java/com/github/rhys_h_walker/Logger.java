@@ -49,7 +49,7 @@ public class Logger {
      * @param consoleOnly Boolean indicating console only logging
      */
     public static void initializeLogger(String appName, boolean consoleOnly) {
-        commonConstructor(appName, LoggingType.defaultVisibility(), consoleOnly);
+        commonConstructor(appName, LoggingType.logVisibilityAllTrue(), consoleOnly);
     }
 
     /**
@@ -357,7 +357,7 @@ public class Logger {
         // Check that logging visibility is not null
         if (customisedVisibility == null) {
             System.err.println("customisedVisibility is null, this could be internal or based on value given \ndefaulting to default values");
-            logVisibility = LoggingType.defaultVisibility();
+            logVisibility = LoggingType.logVisibilityAllTrue();
         } else {
             logVisibility = customisedVisibility;
         }
