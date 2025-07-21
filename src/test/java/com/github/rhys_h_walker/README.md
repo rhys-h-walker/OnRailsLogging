@@ -7,20 +7,19 @@
     - Timestamp decoder
     - String in Array
     - Format a String
+    - File location creation
 
 ## To implement
 - Core:
-    - File writing
-    - File location/creation
-    - Directory structure creation
-    - File content verification
     - File rotation behaviour - *still to implement*
+    - Ensure console output matches currently set visibility
 - Configuration
     - ChangeVisibility
     - ViewLogVisibility
     - GetApplicationName
     - Default visibility settings
     - Custom visibility maps
+    - Ensure shutdown and initialize restarts under a different name / different visibility
 - Error handling
     - Permission denied scenarios
     - Null configuration handling

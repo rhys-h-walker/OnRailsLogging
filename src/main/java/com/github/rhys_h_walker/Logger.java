@@ -74,6 +74,45 @@ public class Logger {
     public static boolean viewLogVisibility(LoggingType type) {
 
         return logVisibility.get(type);
+
+    }
+
+    /**
+     * Get the log visibility map
+     * @return
+     */
+    public static HashMap<LoggingType, Boolean> viewVisibilityMap() {
+
+        return logVisibility;
+
+    }
+
+    /**
+     * Set the log visibility map
+     * @param newVisibility The new hashmap to set
+     */
+    public static void changeLogVisibilityMap(HashMap<LoggingType, Boolean> newVisibility) {
+
+        if (newVisibility == null) {
+            System.err.println("Map not accepted, null value");
+            return;
+        }
+
+        // We should have 6 values as allowed by the LoggingType enum
+        if (newVisibility.keySet().size() != LoggingType.values().length) {
+            System.err.println("Map not accepted, include all values of LoggingType");
+        }
+
+        // Bad practice but for size 6 on an infrequently called method should be ok
+        for (LoggingType logType : newVisibility.keySet()) {
+            if (newVisibility.get(logType) == null) {
+                System.err.println("Map not accepted, null value found for " + logType.toString());
+            }
+            continue;
+        }
+
+        logVisibility = newVisibility;
+
     }
 
     /**
