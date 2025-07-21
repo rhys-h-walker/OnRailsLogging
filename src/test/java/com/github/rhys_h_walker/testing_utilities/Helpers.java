@@ -32,8 +32,8 @@ public class Helpers {
         return "["+timestamp+"] " + logType.toString() + ": " + message;
     }
 
-    public static void deleteNonEmptyTestDirectory() {
-        String path = System.getProperty("user.home")+File.separator+"OnRailsLogging"+File.separator+"Test";
+    public static synchronized void deleteNonEmptyTestDirectory(String baseDirectory) {
+        String path = System.getProperty("user.home")+File.separator+"OnRailsLogging"+File.separator+baseDirectory;
 
         deleteFilesVisitDirectories(path);
 

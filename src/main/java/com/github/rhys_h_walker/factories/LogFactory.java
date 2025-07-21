@@ -149,4 +149,22 @@ public class LogFactory {
 
         return timestamp;
     }
+
+    /**
+     * Close any system resources correctly
+     * @return
+     */
+    public boolean cleanup() {
+
+        if (pw == null) {
+            return true;
+        }
+
+        pw.flush();
+        pw.close();
+        pw = null;
+
+        return true;
+
+    }
 }

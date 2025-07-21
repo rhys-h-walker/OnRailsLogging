@@ -25,7 +25,7 @@ class TestConsoleOutput {
         consoleCapture.startCapture();
         
         // Initialize logger for console-only mode (no file output)
-        Logger.initializeLogger("TestConsoleApp", LoggingType.logVisibilityAllTrue(), true);
+        Logger.initializeLogger("Test", LoggingType.logVisibilityAllTrue(), true);
     }
     
     @AfterEach

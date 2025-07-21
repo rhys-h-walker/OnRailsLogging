@@ -29,7 +29,7 @@ public class TestFileManagement {
 
     private static Stream<Arguments> locateFileTestData() {
 
-    File applicationDirectory = new File(System.getProperty("user.home")+File.separator+"OnRailsLogging/Test");
+    File applicationDirectory = new File(System.getProperty("user.home")+File.separator+"OnRailsLogging/TestFileManagement");
     
     return Stream.of(
         arguments(applicationDirectory, LocalDateTime.of(2004, 3, 30, 12, 12, 12)),
@@ -59,6 +59,6 @@ public class TestFileManagement {
     @AfterAll
     static void cleanup() {
         // Remove application called Test
-        Helpers.deleteNonEmptyTestDirectory();
+        Helpers.deleteNonEmptyTestDirectory("TestFileManagement");
     }
 }

@@ -84,6 +84,13 @@ public class Logger {
         return applicationName;
     }
 
+    public static void shutdown() {
+        if (logFactory != null) {
+            logFactory.cleanup();
+            logFactory = null;
+        }
+    }
+
     /**
      * Log a miscellaneous message
      * @param message
