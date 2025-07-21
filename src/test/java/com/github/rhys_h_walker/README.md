@@ -1,4 +1,5 @@
 # Testing framework:
+Below is a comprehensive list of what is tested for in the framework. Check to implement for upcoming test additions. Items in "On The Backburner" may be implemented at some point, they are not guarantees however.
 
 ## Completed
 - Core:
@@ -35,15 +36,6 @@
     - LogFactory initialization failures
     - PrintWriter creation failures
     - File locking Scenarios
-- Thread safety - *Not of current concern*
-    - Potentially will remain untested
-- Cross-platform testing - *Not of current concern*
-    - Potentially may remain untested
-    - Path characters on (Windows/Unix/Mac)
-    - Case sensitivity (Platform dependent)
-    - Unicode characters
-    - Path length limits
-- File system operations
     - Shutdown hook execution
 - LogFactory
     - isInitialized status checking
@@ -53,8 +45,18 @@
 - Input validation
     - Empty application names
     - Null logging type handling
+
+## On the Backburner
 - Integration Testing
     - End-to-end workflow, init->log->verify
     - File+console dual output verification
     - Console only mode
     - Fallback behaviour chains
+- Thread safety - *Not of current concern*
+    - Potentially will remain untested
+- Cross-platform testing - *Not of current concern*
+    - Potentially may remain untested
+    - Path characters on (Windows/Unix/Mac)
+    - Case sensitivity (Platform dependent)
+    - Unicode characters
+    - Path length limits
