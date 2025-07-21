@@ -129,6 +129,8 @@ public class Logger {
             logFactory.cleanup();
             logFactory = null;
         }
+
+        applicationName = null;
     }
 
     /**

@@ -10,6 +10,7 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
     - Format a String
     - File location creation
     - Ensure console output matches currently set visibility
+    - Null logging type handling
 - Configuration:
     - Default visibility settings
     - GetApplicationName
@@ -17,6 +18,7 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
     - ChangeVisibility
     - ViewLogVisibility
     - Ensure shutdown and initialize restarts under a different name / different visibility
+    - Empty application names
 - LoggingType:
     - Test returned maps are correct
 
@@ -43,8 +45,7 @@ Below is a comprehensive list of what is tested for in the framework. Check to i
     - PrintWriter recreation, for timestamps
     - ErrorFlag management
 - Input validation
-    - Empty application names
-    - Null logging type handling
+    - Nothing for now!
 
 ## On the Backburner
 - Integration Testing

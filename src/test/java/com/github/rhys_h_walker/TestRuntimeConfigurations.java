@@ -123,5 +123,29 @@ public class TestRuntimeConfigurations {
 
         Logger.shutdown();
     }
+
+    private static Stream<Arguments> invalidApplicationNameDataProvider() {
+        return Stream.of(
+            arguments(null, null),
+            arguments("", null),
+            arguments("   ", null),
+            arguments("\t\n", null),
+            arguments("app<name>", "app_name_"),
+            arguments("app:name", "app_name"),
+            arguments("app|name", "app_name"),
+            arguments("app*name", "app_name"),
+            arguments("app?name", "app_name"),
+            arguments("app/name\\test", "app_name_test"),
+            arguments("very_long_application_name_that_exceeds_reasonable_file_system_limits_and_should_be_truncated_appropriately_for_safety", "very_long_application_name_that_exceeds_reasonable_file_system_limits_and_should_be_truncated_approp")
+        );
+    }
+
+    // Test that invalid names are converted correctly
+    @ParameterizedTest
+    @MethodSource("invalidApplicationNameDataProvider")
+    void invalidApplicationName(String name, String expected) {
+        Logger.initializeLogger(name, true);
+        assertEquals(expected, Logger.getApplicationName());
+    }
     
 }
