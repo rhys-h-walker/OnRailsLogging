@@ -6,6 +6,10 @@ Welcome to OnRailsLogger a simple logging application which can fit right into y
 
 Logs can be found in your user.home directory under OnRailsLogging and then your application name.
 
+## Links
+
+- **[JavaDoc](https://rhys-h-walker.github.io/OnRailsLogging/apidocs/index.html)**
+
 ## Quick notes
 
 The logger is still in development. Simple things you may expect to exist may not at this point. They will come soon, checkout the roadmap at the bottom which details the next features to come.
