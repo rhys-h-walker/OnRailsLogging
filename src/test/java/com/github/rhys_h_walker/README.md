@@ -8,18 +8,22 @@
     - String in Array
     - Format a String
     - File location creation
+- Configuration:
+    - Default visibility settings
+    - GetApplicationName
+    - Custom visibility maps
+    - ChangeVisibility
+    - ViewLogVisibility
+    - Ensure shutdown and initialize restarts under a different name / different visibility
 
 ## To implement
 - Core:
     - File rotation behaviour - *still to implement*
     - Ensure console output matches currently set visibility
 - Configuration
-    - ChangeVisibility
-    - ViewLogVisibility
-    - GetApplicationName
-    - Default visibility settings
-    - Custom visibility maps
-    - Ensure shutdown and initialize restarts under a different name / different visibility
+    - Nothing for now!
+- LoggingType:
+    - Test returned maps are correct
 - Error handling
     - Permission denied scenarios
     - Null configuration handling
