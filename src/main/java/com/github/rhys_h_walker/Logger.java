@@ -71,7 +71,7 @@ public class Logger {
      * @param type Type of log to check for
      * @return Boolean representing visibility
      */
-    public static boolean viewLogVisibility(LoggingType type) {
+    public static Boolean viewLogVisibility(LoggingType type) {
 
         return logVisibility.get(type);
 
